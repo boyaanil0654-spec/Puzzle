@@ -1,0 +1,51 @@
+{
+  "name": "cognitive-mirrors",
+  "version": "1.0.0",
+  "description": "Psychological puzzle platform that reveals thinking patterns",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "start": "node server/dist/server.js",
+    "start:dev": "nodemon server/server.js",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "test": "cd server && npm test",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "psychology",
+    "puzzle",
+    "cognitive",
+    "game",
+    "mind",
+    "analysis"
+  ],
+  "author": "Cognitive Mirrors Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "nodemon": "^3.0.1",
+    "eslint": "^8.45.0",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "prettier": "^3.0.0"
+  },
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.10.0",
+    "brain.js": "^2.0.0-beta.18",
+    "compression": "^1.7.4",
+    "helmet": "^7.0.0",
+    "cors": "^2.8.5"
+  }
+}
