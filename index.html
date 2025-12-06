@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cognitive Mirrors - Psychological puzzle platform that reveals your hidden thinking patterns through interactive games">
+    <meta name="keywords" content="psychology, puzzle, cognitive, mind, analysis, game, thinking, brain">
+    <meta property="og:title" content="Cognitive Mirrors - Discover Your Mind">
+    <meta property="og:description" content="Every puzzle is a reflection. Every solution reveals what your conscious mind hides.">
+    <meta property="og:image" content="https://cognitivemirrors.com/og-image.png">
+    <meta property="og:url" content="https://cognitivemirrors.com">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <title>Cognitive Mirrors | Psychological Puzzle Platform</title>
+    
+    <!-- Psychological Color Theme -->
+    <style>
+        :root {
+            /* Primary Cognitive Colors */
+            --cognitive-blue: #2A4B8C;
+            --insight-purple: #6B46C1;
+            --awareness-teal: #0D9488;
+            --energy-orange: #EA580C;
+            --caution-yellow: #CA8A04;
+            
+            /* Neutral with Psychological Undertones */
+            --mind-gray: #1F2937;
+            --conscious-white: #F9FAFB;
+            --subconscious-black: #111827;
+            
+            /* State Colors */
+            --decision-point: #10B981;
+            --hesitation-zone: #F59E0B;
+            --breakthrough: #8B5CF6;
+            --bias-trap: #EF4444;
+            
+            /* Gradients */
+            --gradient-mind: linear-gradient(135deg, var(--subconscious-black), var(--mind-gray));
+            --gradient-insight: linear-gradient(135deg, var(--insight-purple), var(--cognitive-blue));
+            --gradient-energy: linear-gradient(135deg, var(--energy-orange), var(--caution-yellow));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--gradient-mind);
+            color: var(--conscious-white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--gradient-mind);
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: var(--awareness-teal);
+            text-align: center;
+            max-width: 600px;
+            padding: 0 2rem;
+        }
+        
+        .neural-loader {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+        
+        .neural-node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--insight-purple);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .neural-connection {
+            position: absolute;
+            height: 2px;
+            background: var(--awareness-teal);
+            transform-origin: 0 0;
+            animation: connect 4s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 1; }
+        }
+        
+        @keyframes connect {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .cognitive-principles {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+        
+        .principle-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .loading-text {
+                font-size: 1.2rem;
+            }
+            
+            .neural-loader {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/api/health" as="fetch" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- PWA Theme Color -->
+    <meta name="theme-color" content="#1F2937">
+    
+    <!-- Analytics Script (Optional) -->
+    <script defer data-domain="cognitivemirrors.com" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="neural-loader" id="neuralLoader">
+            <!-- Neural nodes and connections will be generated by JavaScript -->
+        </div>
+        <div class="loading-text" id="loadingText">
+            Initializing cognitive engine...
+            <br>
+            <small>Analyzing thinking patterns...</small>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="root"></div>
+
+    <!-- Psychological Principles (Hidden until loaded) -->
+    <div class="cognitive-principles" id="principles">
+        <div class="principle-card">
+            <h3>Pattern Recognition</h3>
+            <p>Your brain naturally seeks patterns in chaos</p>
+        </div>
+        <div class="principle-card">
+            <h3>Cognitive Bias</h3>
+            <p>Your mind has built-in shortcuts and blindspots</p>
+        </div>
+        <div class="principle-card">
+            <h3>Decision Architecture</h3>
+            <p>How you choose reveals who you are</p>
+        </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Main Application Script -->
+    <script type="module">
+        import { createNeuralNetwork } from './js/neural-loader.js';
+        import { initApp } from './js/app.js';
+        
+        // Create neural network loader
+        createNeuralNetwork('neuralLoader');
+        
+        // Simulate cognitive engine initialization
+        const loadingText = document.getElementById('loadingText');
+        const loadingPhases = [
+            "Initializing neural pathways...",
+            "Calibrating psychological models...",
+            "Analyzing cognitive patterns...",
+            "Preparing mind maps...",
+            "Ready to explore your thinking..."
+        ];
+        
+        let phase = 0;
+        const phaseInterval = setInterval(() => {
+            if (phase < loadingPhases.length) {
+                loadingText.innerHTML = loadingPhases[phase];
+                phase++;
+            } else {
+                clearInterval(phaseInterval);
+                
+                // Hide loading screen
+                setTimeout(() => {
+                    const loadingScreen = document.getElementById('loadingScreen');
+                    loadingScreen.style.opacity = '0';
+                    
+                    // Load main app after fade out
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        initApp();
+                    }, 500);
+                }, 1000);
+            }
+        }, 800);
+        
+        // Handle errors
+        window.addEventListener('error', (e) => {
+            console.error('Application error:', e.error);
+            loadingText.innerHTML = "Cognitive recalibration needed. Please refresh.";
+            loadingText.style.color = "var(--bias-trap)";
+        });
+    </script>
+
+    <!-- Fallback for non-JS browsers -->
+    <noscript>
+        <style>
+            .loading-screen { display: none; }
+            .cognitive-principles { display: block !important; opacity: 1 !important; }
+        </style>
+        <div style="padding: 2rem; text-align: center;">
+            <h1 style="color: var(--awareness-teal); margin-bottom: 1rem;">
+                JavaScript Required
+            </h1>
+            <p style="color: var(--conscious-white); margin-bottom: 2rem;">
+                Cognitive Mirrors requires JavaScript to analyze your thinking patterns.
+                Please enable JavaScript to continue.
+            </p>
+            <div style="display: inline-flex; gap: 1rem;">
+                <a href="/simple-version" style="
+                    background: var(--insight-purple);
+                    color: white;
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 10px;
+                    text-decoration: none;
+                ">Basic Version</a>
+                <a href="/about" style="
+                    background: transparent;
+                    color: var(--awareness-teal);
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    border: 2px solid var(--awareness-teal);
+                ">Learn More</a>
+            </div>
+        </div>
+    </noscript>
+</body>
+</html>
